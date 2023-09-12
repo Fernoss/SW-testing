@@ -76,7 +76,7 @@ Read text and find word students
 
 *** Test Cases ***
 Get IP address
-    ${output}=    Run And Return Rc And Output    ifconfig
+    ${output}=    Run And Return Rc And Output    ifconfig -L en0
     @{wordList}=    Split String     ${output}[1]
     Log    ${wordList}
     ${index}=    Get Index From List    ${wordList}    netmask
