@@ -4,82 +4,79 @@ Library    Collections
 Library    OperatingSystem
 
 *** Variables ***
-${one}    Donald
-${two}    Duck
-@{list}    1    2    3    4
-@{names}    Donald    Mickey    Goofy    Scrooge    Daisy   
+${first_name}    Donald
+${last_name}    Duck
+@{numbers}    1    2    3    4
+@{names}    Donald    Mickey    Goofy    Scrooge    Daisy
 
 *** Test Cases ***
-Check outcome
-    ${three}=    Set Variable    Donald Duck
-    Should Be Equal    ${one} ${two}    ${three}
+Check Outcome
+    ${full_name}=    Set Variable    ${first_name} ${last_name}
+    Should Be Equal    ${full_name}    Donald Duck
 
 *** Test Cases ***
-Check value from list
-    ${number}=    Set Variable    ${list}[2]
+Check Value from List
+    ${number}=    Set Variable    ${numbers}[2]
     Should Be Equal    ${number}    3
 
 *** Test Cases ***
-Add value to the list
-    @{list}    Copy List    ${list}
+Add Value to the List
+    @{numbers}    Copy List    ${numbers}
     ${addition}=    Set Variable    333
-    Append To List    ${list}    ${addition}
-    Should Be Equal    ${list}[4]    ${addition}
+    Append To List    ${numbers}    ${addition}
+    Should Be Equal    ${numbers}[4]    ${addition}
 
 *** Test Cases ***
-List length
-    ${length}=    Get Length    ${list}
+List Length
+    ${length}=    Get Length    ${numbers}
     ${expected}=    Convert To Integer    4
     Should Be Equal    ${length}    ${expected}
 
 *** Test Cases ***
-Put list in alphabetical order
+Put List in Alphabetical Order
     Sort List    ${names}
-    Log    ${names}
+    Log    Sorted Names: ${names}
     Should Be Equal    ${names}[0]    Daisy
 
 *** Test Cases ***
-Loop through the list
+Loop Through the List
     FOR    ${counter}    IN RANGE    1    10
-        Log    ${counter}
-        
+        Log    Counter Value: ${counter}
     END
 
 *** Test Cases ***
-Loop names list
-    # Huomio FOR-loopissa viitataan @-merkillä listaa
+Loop Names List
     FOR    ${element}    IN    @{names}
-        Log    ${element}
-        ${new}=    Set Variable    ${element}
+        Log    Element Value: ${element}
     END
 
 *** Test Cases ***
-Make new directory
+Make New Directory
     Create Directory    /Users/jfkoskinen/HAMK/TKM22/asiakprojektien_toteutt/Ohjelmistotest/SW-testing/robotFiles/test1
     Directory Should Exist    /Users/jfkoskinen/HAMK/TKM22/asiakprojektien_toteutt/Ohjelmistotest/SW-testing/robotFiles/test1
 
 *** Test Cases ***
-Ping web page
+Ping Web Page
     ${output}=    Run And Return Rc And Output    ping www.google.com -c 4
-    Log    ${output}
+    Log    Ping Output: ${output}
 
 *** Test Cases ***
-Read text and find word students
+Read Text and Find Word Students
     ${path}=    Set Variable    /Users/jfkoskinen/HAMK/TKM22/asiakprojektien_toteutt/Ohjelmistotest/SW-testing/robotFiles/
     ${output}=    Get File    ${path}example.txt
-    Log    ${output}
+    Log    File Content: ${output}
     ${output}=    Remove String    ${output}    .    ,
     @{wordList}=    Split String    ${output}
-    Log    ${wordList}
+    Log    Word List: ${wordList}
     ${index}=    Get Index From List    ${wordList}    students
     Should Be Equal    ${index}    ${24}
 
 *** Test Cases ***
-Get IP address
+Get IP Address
     ${output}=    Run And Return Rc And Output    ifconfig -L en0
     @{wordList}=    Split String     ${output}[1]
-    Log    ${wordList}
+    Log    IP Address Word List: ${wordList}
     ${index}=    Get Index From List    ${wordList}    netmask
     ${index}=    Evaluate    ${index}-1
     ${IPAddress}=    Set Variable    ${wordList}[${index}]
-    Log    ${IPAddress}
+    Log    IP Address: ${IPAddress}
