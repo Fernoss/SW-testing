@@ -2,32 +2,28 @@
 Library    SeleniumLibrary
 
 *** Test Cases ***
-Facebook register
+Facebook Register
     Open Browser    http://www.facebook.com/r.php
-    Sleep    1
     Maximize Browser Window
 
+    # Handling cookies popup
+    Wait Until Element Is Visible    xpath://button[@title='Allow all cookies']
     Click Element    xpath://button[@title='Allow all cookies']
 
-    Page Should Contain    Create a new account
+    # Verify that we are on the registration page
+    Wait Until Page Contains    Create a new account
 
-    Click Element    name:firstname
+    # Fill in registration form
     Input Text    name:firstname    Donald
-    
-    Sleep    1
-
-    Click Element    name:lastname
     Input Text    name:lastname    Duck
-    
-    Sleep    1
 
+    # Adding wait for visibility before interacting with dropdowns
+    Wait Until Element Is Visible    id:month
     Click Element    id:month
     Select From List By Label    id:month    Apr
 
+    Wait Until Element Is Visible    id:day
     Click Element    id:day
     Select From List By Label    id:day    30
 
     Select Radio Button    sex    2
-
-
-
